@@ -1,22 +1,11 @@
 {
     "version": 2,
-    "builds": [
-      {
-        "src": "src/core/wsgi.py",
-        "use": "@vercel/python",
-        "config": {
-          "maxLambdaSize": "15mb",
-          "runtime": "Python3.9"
-        }
-      },
-      {
-        "src": "build_files.sh",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "staticfiles_build"
-        }
+    "functions": {
+      "src/core/wsgi.py": {
+        "memory": 3009,
+        "maxDuration": 30
       }
-    ],
+    },
     "routes": [
       {
         "src": "/(.*)",
