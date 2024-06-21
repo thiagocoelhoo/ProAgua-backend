@@ -6,7 +6,7 @@ class Edificacao(models.Model):
     imagens = models.ManyToManyField(to=Image)
     codigo = models.CharField(
         verbose_name="código",
-        max_length=8,
+        max_length=20,
         unique=True,
         null=False,
         blank=False
@@ -16,7 +16,7 @@ class Edificacao(models.Model):
         max_length=80)
     campus = models.CharField(
         verbose_name="campus",
-        max_length=2,
+        max_length=20,
         choices=(("LE", "Leste"), ("OE", "Oeste")),
         default=(("LE", "Leste"))
     )

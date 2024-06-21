@@ -26,7 +26,7 @@ class PontoColeta(models.Model):
 
     ambiente = models.CharField(
         verbose_name="ambiente",
-        max_length=20
+        max_length=255
     )
 
     tipo = models.IntegerField(
@@ -36,7 +36,7 @@ class PontoColeta(models.Model):
     )
 
     tombo = models.CharField(
-        max_length=20,
+        max_length=40,
         verbose_name="tombo",
         blank=True,
         null=True
