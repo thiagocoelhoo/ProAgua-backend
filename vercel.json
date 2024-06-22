@@ -1,15 +1,19 @@
 {
-    "version": 2,
-    "functions": {
-      "src/core/wsgi.py": {
-        "memory": 1024,
-        "maxDuration": 30
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/core/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "Python3.12"
       }
-    },
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "src/core/wsgi.py"
-      }
-    ]
-  }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/core/wsgi.py"
+    }
+  ]
+}
