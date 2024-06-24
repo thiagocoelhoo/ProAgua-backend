@@ -1,7 +1,7 @@
 from typing import List 
 
 from .ponto_coleta import PontoColetaOut
-from apps.proagua_api.models import PontoColeta, Fluxo
+from proagua_api.models import PontoColeta, Fluxo
 from ninja import Schema, ModelSchema
 
 class FluxoIn(ModelSchema):

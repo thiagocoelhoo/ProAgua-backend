@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from datasync.excel_utils import obter_dados_excel, extract_digits
 
-from apps.proagua_api import models
+from proagua_api import models
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 django.setup()

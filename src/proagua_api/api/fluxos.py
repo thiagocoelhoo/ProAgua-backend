@@ -5,7 +5,7 @@ from ninja.pagination import paginate
 from django.shortcuts import get_object_or_404
 
 from .schemas.fluxo import FluxoOut, FluxoIn
-from apps.proagua_api.models.fluxo import Fluxo
+from proagua_api.models.fluxo import Fluxo
 
 router = Router()
 
