@@ -27,21 +27,6 @@ class SequenciaColetasOut(Schema):
     @staticmethod
     def resolve_coletas_url(obj):
         return reverse("api-1.0.0:list_coletas_sequencia", kwargs={"id_sequencia": obj.id})
-    
-    @staticmethod
-    def resolve_status(obj) -> Optional[bool]:
-        last = obj.coletas.last()
-        if last:
-            return last.analise()["status"]
-
-    @staticmethod
-    def resolve_status_message(obj: SequenciaColetas):
-        messages = []
-        last = obj.coletas.last()
-        if last:
-            messages.extend(last.analise()["messages"])
-            return ', '.join(messages) + "."
-        return "Coleta pendente."
 
     @staticmethod
     def resolve_ultima_coleta(obj: SequenciaColetas):
@@ -53,7 +38,8 @@ class SequenciaColetasOut(Schema):
 class FilterSequenciaColetas(FilterSchema):
     q: str = Field(
         default=None,
-        q=["ponto__ambiente__contains", "ponto__edificacao__nome__contains", "ponto__edificacao__codigo__contains"],
+        q=["ponto__ambiente__contains", "ponto__edificacao__nome__contains",
+            "ponto__edificacao__codigo__contains"],
         description="Campo de pesquisa por ambiente ou nome de edificação"
     )
 

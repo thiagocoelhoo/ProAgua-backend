@@ -58,6 +58,7 @@ class Coleta(models.Model):
     responsavel = models.ManyToManyField(
         to=User,
         verbose_name="responsaveis",
+        blank=True,
     )
     ordem = models.CharField(
         max_length=1,

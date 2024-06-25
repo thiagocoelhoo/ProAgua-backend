@@ -33,8 +33,8 @@ class PontoColetaOut(Schema):
     fluxos_url: str
     status: Optional[bool] = None
     status_message: Optional[str] = None
-    amontante: Optional[PontoColetaOutRef] = None # type: ignore
-    associados: Optional[List[int]] = None # type: ignore
+    amontante: Optional[PontoColetaOutRef] = None  # type: ignore
+    associados: Optional[List[int]] = None  # type: ignore
 
     @staticmethod
     def resolve_associados(self):
@@ -47,18 +47,12 @@ class PontoColetaOut(Schema):
     @staticmethod
     def resolve_fluxos_url(self):
         return reverse("api-1.0.0:get_fluxos", kwargs={"id_ponto": self.id})
-    
+
     @staticmethod
     def resolve_status_message(obj: models.PontoColeta):
-        messages = []
         last = obj.coletas.order_by("data").last()
-        
         if last:
-            messages.extend(last.analise()["messages"])
-
-        if len(messages) > 0:
-            return ', '.join(messages) + "."
-        
+            return last.status_messages
         return "Não há coletas nesse ponto"
 
 
@@ -78,6 +72,7 @@ class FilterPontos(FilterSchema):
     )
     fluxos: Optional[int] = None
     status: Optional[bool] = Field(default=None)
+
 
 PontoColetaIn.update_forward_refs()
 PontoColetaOut.update_forward_refs()
