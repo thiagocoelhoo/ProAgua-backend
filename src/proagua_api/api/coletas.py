@@ -21,7 +21,10 @@ router = Router(tags=["Coletas"])
 @router.get("/", response=List[ColetaOut])
 @paginate
 def list_coleta(request, filter: FilterColeta = Query(...)):
-    qs = models.Coleta.objects.all()
+    qs = models.Coleta.objects
+    qs = qs.select_related("ponto", "ponto__edificacao")
+    qs = qs.prefetch_related("ponto__imagens", "ponto__edificacao__imagens", "responsavel")
+
     return filter.filter(qs).order_by("data")
 
 
