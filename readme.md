@@ -5,15 +5,25 @@ Para instalar as bibliotecas necessárias, abra a pasta do projeto e execute o s
 pip3 install -r requirements.txt
 ```
 
-# Rodar servidor
-Se você ainda não realizou as migrations, execute os seguintes comandos para criar o banco de dados e popular:
-```sh
-python3 src/manage.py makemigrations proagua_api
-python3 src/manage.py migrate
-python3 src/manage.py seed // Popular banco de dados com dados de teste
+# Configuração
+1. Instale o PostgreSQL v16.3 em sua máquina.
+2. Crie um banco de dados chamado "proagua".
+3. Crie um arquivo chamado ".env" na raiz do projeto e preencha as seguintes variáveis de ambiente:
+
+```sh	
+DB_NAME = 'proagua'
+DB_HOST = ''
+DB_PORT = ''
+DB_USER = ''
+DB_PASSWORD = ''
 ```
 
-Para rodar o servidor use o seguinte comando:
+# Executar o servidor
+Para garantir a integridade do Banco de Dados, execute o seguinte comando:
+```sh
+python3 src/manage.py config
+```
+Para iniciar o servidor, utilize o comando:
 ```sh
 python3 src/manage.py runserver
 ```
@@ -30,14 +40,20 @@ Se precisar criar um superuser padrão, execute o seguinte comando:
 python3 src/manage.py createadmin
 ```
 
-# Configurar o Banco de Dados
-Para garantir a integridade do Banco de Dados, execute o seguinte comando:
-```sh
-python3 src/manage.py config
-```
+# Popular o Banco de Dados
+Para popular o banco de dados com dados de teste, siga os passos abaixo:
 
-# Testando a API
-Para testar a API, mova o arquivo "SI para PowerBi.xlsm" para a pasta "src/datasync". Certifique-se de estar logado como superuser e com o servidor em execução. Em seguida, execute o seguinte comando:
+Coloque o arquivo Excel "ProAgua SIMASP.xlsm" na pasta "src/datasync".
+
+Execute um dos seguintes comandos:
+
+Para apenas popular o banco de dados:
+
 ```sh
-python3 src/datasync/sync_edficacoes.py
+python3 src/manage.py seed
+```
+Para limpar e popular o banco de dados:
+
+```sh
+python3 src/manage.py rebuild
 ```
