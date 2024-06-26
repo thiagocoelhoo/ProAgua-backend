@@ -25,6 +25,8 @@ router = Router(tags=["Pontos"])
 @paginate
 def list_ponto(request, filters: FilterPontos = Query(...)):
     qs = models.PontoColeta.objects
+    qs = qs.select_related("edificacao")
+    qs = qs.prefetch_related("imagens", "edificacao__imagens")
 
     if filters.q:
         qs = qs.filter(
