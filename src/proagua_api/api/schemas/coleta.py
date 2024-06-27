@@ -31,48 +31,19 @@ class ColetaOut(Schema):
     cor: float
     data: datetime
     responsaveis_id: List[int]
-    responsaveis_url: str
     ordem: str
-    links: dict = {}
-    sequencia_url: str
     sequencia_id: int
-    ponto_url: str
     ponto: PontoColetaOut
     status: Optional[bool] = None
-    status_messages: Optional[List[str]] = None
+    # status_messages: Optional[List[str]] = None
 
     @staticmethod
     def resolve_responsaveis_id(obj: models.Coleta):
         return [r.id for r in obj.responsavel.all()]
 
-    @staticmethod
-    def resolve_responsaveis_url(obj):
-        return reverse("api-1.0.0:get_responsaveis_coleta", kwargs={"id_coleta": obj.id})
-
-    @staticmethod
-    def resolve_sequencia_url(obj):
-        return reverse("api-1.0.0:get_sequencia", kwargs={"id_sequencia": obj.sequencia.id})
-
-    @staticmethod
-    def resolve_ponto_url(obj):
-        return reverse("api-1.0.0:get_ponto", kwargs={"id_ponto": obj.ponto.id})
-
-    @staticmethod
-    def resolve_links(obj: models.Coleta):
-        return {
-            "sequencia": {
-                "id_sequencia": obj.sequencia.id,
-                "url_sequencia": reverse("api-1.0.0:get_sequencia", kwargs={"id_sequencia":obj.sequencia.id}),
-            }
-            ,"ponto_coleta": {
-                "id_ponto": obj.ponto.id,
-                "url_ponto": reverse("api-1.0.0:get_ponto", kwargs={"id_ponto":obj.ponto.id}),
-             }
-        }
-
-    @staticmethod
-    def resolve_status_messages(obj: models.Coleta):
-        return obj.analise()["messages"]
+    # @staticmethod
+    # def resolve_status_messages(obj: models.Coleta):
+    #     return obj.analise()["messages"]
 
 
 class FilterColeta(FilterSchema):
