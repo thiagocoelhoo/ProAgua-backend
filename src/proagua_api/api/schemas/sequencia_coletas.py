@@ -19,20 +19,19 @@ class SequenciaColetasOut(Schema):
     amostragem: int
     ponto: PontoColetaOut
     quantidade_coletas: int = None
-    coletas_url: str
     status: Optional[bool] = None
     status_message: Optional[str] = None
-    ultima_coleta: Optional[datetime] = None
+    # ultima_coleta: Optional[datetime] = None
+    
+    # @staticmethod
+    # def resolve_coletas_url(obj):
+    #     return reverse("api-1.0.0:list_coletas_sequencia", kwargs={"id_sequencia": obj.id})
 
-    @staticmethod
-    def resolve_coletas_url(obj):
-        return reverse("api-1.0.0:list_coletas_sequencia", kwargs={"id_sequencia": obj.id})
-
-    @staticmethod
-    def resolve_ultima_coleta(obj: SequenciaColetas):
-        last = obj.coletas.order_by("data").last()
-        if last:
-            return last.data
+    # @staticmethod
+    # def resolve_ultima_coleta(obj: SequenciaColetas):
+    #     last = obj.coletas.order_by("data").last()
+    #     if last:
+    #         return last.data
 
 
 class FilterSequenciaColetas(FilterSchema):
