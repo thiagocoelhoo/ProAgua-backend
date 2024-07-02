@@ -9,6 +9,7 @@ class EdificacaoIn(Schema):
     nome: str
     campus: str 
     cronograma: int
+    informacoes_gerais: Optional[str] = None
 
 
 class EdificacaoOut(Schema):
@@ -19,6 +20,7 @@ class EdificacaoOut(Schema):
     cronograma: int
     pontos_url: str
     imagens: List[ImageOut]
+    informacoes_gerais: Optional[str] = None
     
     @staticmethod
     def resolve_pontos_url(obj):

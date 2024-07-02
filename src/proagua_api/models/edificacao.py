@@ -24,6 +24,13 @@ class Edificacao(models.Model):
         verbose_name="cronograma",
     )
 
+    informacoes_gerais = models.TextField(
+        verbose_name="informações gerais",
+        max_length=500,
+        blank=True,
+        null=True
+    )
+
     def has_dependent_objects(instance):
         for related_object in instance._meta.related_objects:
             related_name = related_object.get_accessor_name()
