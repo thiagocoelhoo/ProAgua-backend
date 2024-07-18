@@ -15,7 +15,6 @@ from ninja.errors import HttpError
 
 from .schemas.ponto_coleta import *
 from .schemas.coleta import ColetaOut
-from .schemas.fluxo import FluxoOut
 from .. import models
 from .utils import save_file
 
@@ -30,16 +29,13 @@ def list_ponto(request, filters: FilterPontos = Query(...)):
 
     if filters.q:
         qs = qs.filter(
-            Q(ambiente__contains=filters.q) | Q(edificacao__nome__contains=filters.q) | Q(edificacao__codigo__contains=filters.q))
+            Q(localizacao__contains=filters.q) | Q(edificacao__nome__contains=filters.q) | Q(edificacao__codigo__contains=filters.q))
         
     if filters.edificacao__campus:
         qs = qs.filter(edificacao__campus=filters.edificacao__campus)
 
     if filters.tipo:
         qs = qs.filter(tipo__in=filters.tipo)
-
-    if filters.fluxos:
-        qs = qs.filter(fluxos=filters.fluxos)
 
     if filters.status:
         pass
@@ -83,18 +79,12 @@ def delete_image(request, id_ponto: str, id_imagem: uuid.UUID):
 @router.post("/")
 def create_ponto(request, payload: PontoColetaIn):
     edificacao = get_object_or_404(models.Edificacao, codigo=payload.codigo_edificacao)
-    amontante = get_object_or_404(models.PontoColeta, id=payload.amontante) if payload.amontante else None
-    associados = [get_object_or_404(models.PontoColeta, id=assoc) for assoc in payload.associados] if payload.associados else None
-    
+    amontante = get_object_or_404(models.PontoColeta, id=payload.amontante) if payload.amontante else None    
     data_dict = payload.dict()
     data_dict.pop("codigo_edificacao")
-    data_dict.pop("associados", None)
     data_dict["edificacao"] = edificacao
     data_dict["amontante"] = amontante
     ponto_coleta = models.PontoColeta.objects.create(**data_dict)
-    
-    if associados:
-        ponto_coleta.associados.set(associados)
 
     ponto_coleta.save()
 
@@ -111,8 +101,6 @@ def update_ponto(request, id_ponto: int, payload: PontoColetaIn):
     if payload.amontante is not None:
         amontante = get_object_or_404(models.PontoColeta, id=payload.amontante)
 
-    associados = [get_object_or_404(models.PontoColeta, id=assoc) for assoc in payload.associados] if payload.associados else None
-
     edificacao = get_object_or_404(models.Edificacao, codigo=payload.codigo_edificacao)
 
     data_dict = payload.dict()
@@ -120,11 +108,6 @@ def update_ponto(request, id_ponto: int, payload: PontoColetaIn):
     data_dict["edificacao"] = edificacao
     data_dict["amontante"] = amontante
 
-    for attr, value in data_dict.items():
-        if attr == "associados":
-            ponto.associados.set(value)
-        else:
-            setattr(ponto, attr, value)
     ponto.save()
     return {"success": True}
 
@@ -147,9 +130,3 @@ def list_coletas(request, id_ponto: int):
     """
     qs = models.Coleta.objects.filter(ponto__id=id_ponto)
     return qs
-
-
-@router.get("/{id_ponto}/fluxos", response=List[FluxoOut])
-def get_fluxos(request, id_ponto: int):
-    fluxos = models.Fluxo.objects.filter(pontos__id=id_ponto)
-    return fluxos
