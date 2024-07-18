@@ -44,7 +44,9 @@ class PontoColeta(models.Model):
 
     localizacao = models.CharField(
         verbose_name="localizacao",
-        max_length=255
+        max_length=255,
+        blank=True,
+        null=True
     )
 
     observacao = models.TextField(
