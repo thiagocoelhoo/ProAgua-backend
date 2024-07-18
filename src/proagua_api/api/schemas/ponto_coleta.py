@@ -59,8 +59,8 @@ class PontoColetaOut(Schema):
 class FilterPontos(FilterSchema):
     q: Optional[str] = Field(
         default=None,
-        q=["ambiente__contains", "edificacao__nome__contains"],
-        description="Campo de pesquisa por ambiente ou nome de edificação"
+        q=["localizacao__contains", "edificacao__nome__contains"],
+        description="Campo de pesquisa por localizacão ou nome de edificação"
     )
     edificacao__campus: Optional[str] = Field(
         default=None,

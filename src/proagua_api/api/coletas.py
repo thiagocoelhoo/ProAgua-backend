@@ -79,7 +79,7 @@ def get_coletas_excel(request, filter: FilterColeta = Query(...)):
 
     # Criar colunas de Ponto
     df.insert(4, "Tipo", "DEFAULT")
-    df.insert(5, "Ambiente", "DEFAULT")
+    df.insert(5, "Localização", "DEFAULT")
     df.insert(6, "Tombo", "DEFAULT")
 
     # Inserindo os valores correspondentes nas colunas criadas
@@ -95,7 +95,7 @@ def get_coletas_excel(request, filter: FilterColeta = Query(...)):
                     edificacao.nome)  # Explicitly convert to string
                 df.at[index, "Campus"] = edificacao.campus
             df.at[index, "Tipo"] = ponto.get_tipo_display()
-            df.at[index, "Ambiente"] = ponto.ambiente
+            df.at[index, "Localização"] = ponto.localizacao
             df.at[index, "Tombo"] = ponto.tombo
 
     # Renomeando campus

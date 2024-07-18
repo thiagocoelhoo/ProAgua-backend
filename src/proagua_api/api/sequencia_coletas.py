@@ -121,7 +121,7 @@ def list_sequencia(request, filter: FilterSequenciaColetas = Query(...)):
 
     if filter.q:
         qs = qs.filter(
-            Q(ponto__ambiente__icontains=filter.q) | 
+            Q(ponto__localizacao__icontains=filter.q) | 
             Q(ponto__edificacao__nome__icontains=filter.q) | 
             Q(ponto__edificacao__codigo__icontains=filter.q)
         )
