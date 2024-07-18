@@ -20,6 +20,12 @@ class PontoColetaIn(Schema):
     amontante: Optional[int] = None
     observacao: Optional[str] = None
     tombo: Optional[str] = None
+
+    quantidade: Optional[int] = None # unico, duplo, triplo
+    capacidade: Optional[int] = None
+    material: Optional[str] = None
+    fonte_informacao: Optional[str] = None
+
 class ReservatorioIn(Schema):
     codigo_edificacao: str
     tipo: int
