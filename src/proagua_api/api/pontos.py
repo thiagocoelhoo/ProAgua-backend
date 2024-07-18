@@ -108,6 +108,10 @@ def update_ponto(request, id_ponto: int, payload: PontoColetaIn):
     data_dict["edificacao"] = edificacao
     data_dict["amontante"] = amontante
 
+    for key, value in data_dict.items():
+        setattr(ponto, key, value)
+
+
     ponto.save()
     return {"success": True}
 
