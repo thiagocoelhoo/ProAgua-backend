@@ -3,7 +3,8 @@ from .coleta import Coleta
 from .image import Image
 
 TIPOS_PONTOS = (
-    (1, "Bebedouro"),
+    (0, "Bebedouro"),
+    (1, "Torneira"),
     (2, "Reservatório predial superior"),
     (3, "Reservatório predial inferior"),
     (4, "Reservatório de distribuição superior"),
@@ -13,9 +14,11 @@ TIPOS_PONTOS = (
 
 
 class PontoColeta(models.Model):
+    # Caracteristicas gerais de um ponto de coleta
     id = models.AutoField(primary_key=True)
-    imagens = models.ManyToManyField(to=Image)
-    
+
+    imagens = models.ManyToManyField(to=Image, blank=True)
+
     edificacao = models.ForeignKey(
         to="Edificacao",
         related_name="PontoColeta",
@@ -24,22 +27,10 @@ class PontoColeta(models.Model):
         blank=False
     )
 
-    ambiente = models.CharField(
-        verbose_name="ambiente",
-        max_length=255
-    )
-
     tipo = models.IntegerField(
         verbose_name="tipo",
         choices=TIPOS_PONTOS,
         default=(1, "Bebedouro")
-    )
-
-    tombo = models.CharField(
-        max_length=40,
-        verbose_name="tombo",
-        blank=True,
-        null=True
     )
 
     amontante = models.ForeignKey(
@@ -51,16 +42,49 @@ class PontoColeta(models.Model):
         null=True
     )
 
-    associados = models.ManyToManyField(
-        to="PontoColeta",
-        verbose_name="reservatorios associados",
-        related_name="ponto_associado",
+    localizacao = models.CharField(
+        verbose_name="localizacao",
+        max_length=255
+    )
+
+    observacao = models.TextField(
+        verbose_name="observação",
         blank=True,
         null=True
     )
 
-    imagem = models.ImageField(
-        upload_to="media/images/edificacoes",
+    # Parâmetros de exclusivo de bebedouro
+
+    tombo = models.CharField(
+        max_length=40,
+        verbose_name="tombo",
+        blank=True,
+        null=True
+    )
+
+    # Reservatorio
+    quantidade = models.IntegerField(
+        verbose_name="quantidade",  # unico, duplo, triplo
+        blank=True,
+        null=True
+    )
+
+    capacidade = models.FloatField(
+        verbose_name="capacidade em (L)",
+        blank=True,
+        null=True
+    )
+
+    material = models.CharField(
+        verbose_name="material",
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    fonte_informacao = models.CharField(
+        verbose_name="fonte de informação",
+        max_length=255,
         blank=True,
         null=True
     )
@@ -74,7 +98,6 @@ class PontoColeta(models.Model):
         coleta = Coleta.objects.filter(ponto=self).last()
         if coleta:
             return coleta.status_message
-
 
     def has_dependent_objects(instance):
         for related_object in instance._meta.related_objects:
