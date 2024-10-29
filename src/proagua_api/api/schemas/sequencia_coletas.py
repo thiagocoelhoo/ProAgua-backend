@@ -37,9 +37,9 @@ class SequenciaColetasOut(Schema):
 class FilterSequenciaColetas(FilterSchema):
     q: str = Field(
         default=None,
-        q=["ponto__ambiente__contains", "ponto__edificacao__nome__contains",
+        q=["ponto__localizacao__contains", "ponto__edificacao__nome__contains",
             "ponto__edificacao__codigo__contains"],
-        description="Campo de pesquisa por ambiente ou nome de edificação"
+        description="Campo de pesquisa por localização ou nome de edificação"
     )
 
     amostragem: int = Field(

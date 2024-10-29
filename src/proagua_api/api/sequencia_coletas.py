@@ -22,7 +22,7 @@ def list_sequencia(request, filter: FilterSequenciaColetas = Query(...)):
     qs = models.SequenciaColetas.objects.select_related(
         'ponto', 'ponto__edificacao', 'ponto__amontante'
     ).prefetch_related(
-        'coletas', 'ponto__imagens', 'ponto__associados', 'ponto__edificacao__imagens'
+        'coletas', 'ponto__imagens', 'ponto__edificacao__imagens'
     )
 
     # Uma única subquery para obter todas as coletas
@@ -121,7 +121,7 @@ def list_sequencia(request, filter: FilterSequenciaColetas = Query(...)):
 
     if filter.q:
         qs = qs.filter(
-            Q(ponto__ambiente__icontains=filter.q) | 
+            Q(ponto__localizacao__icontains=filter.q) | 
             Q(ponto__edificacao__nome__icontains=filter.q) | 
             Q(ponto__edificacao__codigo__icontains=filter.q)
         )

@@ -50,25 +50,25 @@ class Command(BaseCommand):
             self.stdout.write(f"Dados já existentes para código {codigo}")
         return edificacao
 
-    def create_ponto(self, tipo, ambiente, tombo, edificacao):
+    def create_ponto(self, tipo, localizacao, tombo, edificacao):
         tipo = 1 if 'bebedouro' in tipo else 2
         tombo = extract_digits(tombo)
         tombo = tombo.strip() if tombo else tombo
-        ambiente = ambiente.strip() if ambiente else ambiente
+        localizacao = localizacao.strip() if localizacao else localizacao
 
         ponto, created = models.PontoColeta.objects.get_or_create(
             tipo=tipo,
-            ambiente=ambiente,
+            localizacao=localizacao,
             tombo=tombo,
             edificacao=edificacao
         )
 
         if created:
             self.stdout.write(self.style.SUCCESS(
-                f"Ponto de Coleta de tipo {tipo} e ambiente {ambiente} da edificação {edificacao} criado com sucesso."))
+                f"Ponto de Coleta de tipo {tipo} e localização {localizacao} da edificação {edificacao} criado com sucesso."))
         else:
             self.stdout.write(
-                f"Dados já existentes para ponto de coleta de tipo {tipo} e ambiente {ambiente} da edificação {edificacao}.")
+                f"Dados já existentes para ponto de coleta de tipo {tipo} e localização {localizacao} da edificação {edificacao}.")
         return ponto
 
     def create_responsavel(self, nome):
@@ -146,12 +146,12 @@ class Command(BaseCommand):
                 cronograma, codigo, nome, campus)
 
             tipo = linha.iloc[6]
-            ambiente = linha.iloc[7]
+            localizacao = linha.iloc[7]
             tombo = linha.iloc[8]
 
-            if pd.isna(tipo) or pd.isna(ambiente):
+            if pd.isna(tipo) or pd.isna(localizacao):
                 continue
-            ponto = self.create_ponto(tipo, ambiente, tombo, edificacao)
+            ponto = self.create_ponto(tipo, localizacao, tombo, edificacao)
 
             amostragem = linha.iloc[0]
 
