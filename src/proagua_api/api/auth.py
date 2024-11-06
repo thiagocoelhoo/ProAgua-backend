@@ -107,7 +107,7 @@ def verify_token(request, data: TokenSchema):
 @router.get('/logout')
 def logout_api(request):
     logout(request)
-    r = HttpResponse("Logged out")
-    r.delete_cookie('csrftoken')
-    r.delete_cookie('access_token')
-    return r
+    response = HttpResponse("Logged out")
+    response.delete_cookie('csrftoken')
+    response.delete_cookie('access_token')
+    return response
