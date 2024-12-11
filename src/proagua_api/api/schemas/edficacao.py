@@ -13,13 +13,12 @@ class EdificacaoIn(Schema):
 
 
 class EdificacaoOut(Schema):
-    imagem: Optional[str] = None
     codigo: str
     nome: str
     campus: str 
     cronograma: int
-    pontos_url: str
-    imagens: List[ImageOut]
+    # pontos_url: str
+    # imagens: List[ImageOut]
     informacoes_gerais: Optional[str] = None
     
     @staticmethod

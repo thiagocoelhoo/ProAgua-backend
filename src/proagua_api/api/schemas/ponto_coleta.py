@@ -43,19 +43,27 @@ class PontoColetaOut(Schema):
     edificacao: EdificacaoOut
     tipo: int
     localizacao: Optional[str] = None
-    amontante: Optional[PontoColetaOutRef] = None  # type: ignore
+    
+    # Sem utilidade por enquanto
+    amontante: Optional[PontoColetaOutRef] = None  # type: ignore 
+    
+    # Talvez eu retire esse campo ou crie outro schema sem imagens
     imagens: List[ImageOut]
+    
     tombo: Optional[str] = None
     quantidade: Optional[int] = None # unico, duplo, triplo
     capacidade: Optional[int] = None
     observacao: Optional[str] = None
     material: Optional[str] = None
     fonte_informacao: Optional[str] = None
-    status: Optional[bool] = None
-    status_message: Optional[str] = None
+
+    # status: Optional[bool] = None # LENTO (provavelmente por acessar metodos do model)
+    # status_message: Optional[str] = None # LENTO
 
     @staticmethod
     def resolve_status_message(obj: models.PontoColeta):
+        # TODO: Evitar acesso ao banco de dados dentro do schema
+        
         last = obj.coletas.order_by("data").last()
         if last:
             return last.status_messages
