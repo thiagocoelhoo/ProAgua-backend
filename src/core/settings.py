@@ -152,21 +152,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/sequencias_coletas/'
 
 # SECURITY WARNING: Não deve ser usado em produção.
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:8000',
+    'https://proagua-ufersa.up.railway.app',
+    'https://pro-agua-frontend.vercel.app/',
 ]
 
 CORS_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:8000',
+    'https://proagua-ufersa.up.railway.app',
+    'https://pro-agua-frontend.vercel.app/',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:8000',
+    'https://proagua-ufersa.up.railway.app',
+    'https://pro-agua-frontend.vercel.app/',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
