@@ -22,7 +22,7 @@ from . import (
 #     def render(self, request, data, *, response_status):
 #         return orjson.dumps(data)
 
-api = NinjaAPI(auth=auth.JWTBearer(), csrf=True)
+api = NinjaAPI(auth=auth.JWTBearer(), csrf=False)
 
 # Public routes
 @api.get("/csrf", auth=None)
