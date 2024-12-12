@@ -12,6 +12,15 @@ from . import (
     parametros_referencia,
     solicitacoes
 )
+# import orjson
+# from ninja.renderers import BaseRenderer
+
+
+# class ORJSONRenderer(BaseRenderer):
+#     media_type = "application/json"
+
+#     def render(self, request, data, *, response_status):
+#         return orjson.dumps(data)
 
 api = NinjaAPI(auth=auth.JWTBearer(), csrf=True)
 
@@ -20,7 +29,7 @@ api = NinjaAPI(auth=auth.JWTBearer(), csrf=True)
 def get_csrf_token(request):
     token = get_token(request)
     response = JsonResponse({"csrftoken": token})
-    response.set_cookie('csrftoken', token, path='/', samesite='None', secure=False)
+    response.set_cookie('csrftoken', token, path='/', samesite='None', secure=True)
     return response
 
 # Private routes
