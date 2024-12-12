@@ -87,7 +87,7 @@ def login(request, credentials: LoginCredentialsSchema):
             value=token,
             httponly=True,
             secure=True, 
-            samesite='Strict'
+            samesite='None'
         )
         return response
 
